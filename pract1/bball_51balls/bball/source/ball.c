@@ -8,7 +8,7 @@
 
 void ballRender( ball* b, int camera_x, int camera_y )
 {
- u16* sprite = OAM + b->sprite_index * 4; // Cada entrà de la taula de OAM ocupa 4 u16
+ u16* sprite = OAM + b->sprite_index * 4;
 	
  int x, y;
  x = ((b->x - c_radius*2) >> 8) - camera_x;
@@ -16,7 +16,6 @@ void ballRender( ball* b, int camera_x, int camera_y )
 	
  if( x <= -16 || y <= -16 || x >= 256 || y >= 192 )
  {
-	//sprites fuera de rango. Deshabilitar el sprite
 	//sprite[0] = ATTR0_DISABLED;
         oamSetHidden( &oamMain, b->sprite_index, true);
 	return;
@@ -42,7 +41,7 @@ void ballRender( ball* b, int camera_x, int camera_y )
 
 void ballRender_senseSquishing( ball* b, int camera_x, int camera_y )
 {
- u16* sprite = OAM + b->sprite_index * 4; // Cada entrà de la taula de OAM ocupa 4 u16
+ u16* sprite = OAM + b->sprite_index * 4; 
 	
 int x, y;
 x = ((b->x - c_radius) >> 8) - camera_x;
@@ -50,7 +49,6 @@ y = ((b->y - c_radius) >> 8) - camera_y;
 	
 if( x <= -16 || y <= -16 || x >= 256 || y >= 192 )
 {
-	//sprites fuera de rango. Deshabilitar el sprite
 	//sprite[0] = ATTR0_DISABLED;
         oamSetHidden( &oamMain, b->sprite_index, true);
 	return;
@@ -59,11 +57,6 @@ if( x <= -16 || y <= -16 || x >= 256 || y >= 192 )
 sprite[0] = y & 255;
 sprite[1] = (x & 511) | ATTR1_SIZE_16;
 sprite[2] = 0;
-/* si tinguera acces a sprites --> canviar la interficie
-sprites[b->sprite_index].attribute[0] = y & 255;
-sprites[b->sprite_index].attribute[1] = (x & 511) | ATTR1_SIZE_16;
-sprites[b->sprite_index].attribute[2] = 0;
-*/
 }
 
 
@@ -96,7 +89,6 @@ void ballUpdate( ball* b ) // Físicas
  // add X velocity to X position xvel is 20.12 while x is 24.8
  b->x += (b->xvel>>4);
 
- //Gravetat: 
  // apply air friction to X velocity
  b->xvel = (b->xvel * (256-c_air_friction)) >> 8;
  
@@ -132,7 +124,7 @@ void ballUpdate( ball* b ) // Físicas
  else {
     b->height = c_diam << 8;
  }
-} // Fi ballUpdate
+} 
 
 void ballUpdate__senseSquishing( ball* b ) // Físicas
 {
@@ -166,4 +158,4 @@ void ballUpdate__senseSquishing( ball* b ) // Físicas
     if( b->yvel > -min_yvel ) b->yvel = -min_yvel;
  }
 
-} // fi de ballUpdate__senseSquishing
+} 

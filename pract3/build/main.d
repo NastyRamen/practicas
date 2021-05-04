@@ -1,4 +1,4 @@
-main.o: C\:/devkitPro/examples/3ds/pract3/source/main.c \
+main.o: C\:/Users/Nieves/Documents/GitHub/practicas/pract3/source/main.c \
  C\:/devkitPro/libctru/include/citro2d.h \
  C\:/devkitPro/libctru/include/citro3d.h \
  C\:/devkitPro/libctru/include/c3d/types.h \
