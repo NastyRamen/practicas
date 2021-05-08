@@ -1,0 +1,1 @@
+Estic comprovant que el desplaçament del Fondo es podria fer en bgScroll en conter d'accidir a un registre directament: però no funciona, mira en main.c

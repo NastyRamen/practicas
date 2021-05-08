@@ -12,6 +12,7 @@
 #define PROTA       0
 // de 1 a 50, inclosos són NPCs, avatars contrincants!
 ball g_ball[ NPILOTETES ];
+int count = 0;
 void setupInterrupts( void );
 
 void resetBall_51Sprites( void );
@@ -28,14 +29,16 @@ int main( void )
     setupGraphics();
     resetBall_51Sprites();
     consoleDemoInit();
-    //printf("Alo");
+    iprintf("\x1b[0;0HMade by:");
+    iprintf("\x1b[2;0HNieves Codoner Gil");
+    iprintf("\x1b[3;0HAntoni Garces Gallardo");
+    iprintf("\x1b[4;0HCristina Padro Ferragut");
     while(1) {
 		//Periodo de Renderizado
 		//Actualizacion objetos del juego (Moverlos alrededor,                        
                 //  calcular velocidades, etc) 
 		//update_logic --> updateLogic(); --> processLogic
 		processLogic();
-
 		//Espera para periodo vblank
 		swiWaitForVBlank();
 		
@@ -357,8 +360,12 @@ void processLogic( void ) {
    if (i == PROTA)
     continue;
    u8 collide = ballCollide(&g_ball[PROTA], &g_ball[i]);
-   if (collide)
+   if (collide) 
+   {
+    count++;
+    iprintf("\x1b[10;0HNumber of balls collided: %d", count);
     g_ball[i].enabled = 0;
+   }
  }
 
 
