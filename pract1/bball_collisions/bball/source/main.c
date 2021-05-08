@@ -27,7 +27,8 @@ int main( void )
 {
     setupGraphics();
     resetBall_51Sprites();
-    
+    consoleDemoInit();
+    printf("Alo");
     while(1) {
 		//Periodo de Renderizado
 		//Actualizacion objetos del juego (Moverlos alrededor,                        
@@ -125,7 +126,7 @@ typedef struct t_spriteEntry
 void setupGraphics( void )
 {
  // put the main screen on the bottom lcd
- lcdMainOnBottom();
+ lcdMainOnTop();
         
  // 1.1
  vramSetBankE( VRAM_E_MAIN_BG );
