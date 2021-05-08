@@ -30,7 +30,6 @@ C2D_Text g_staticText[4];
 
 static C2D_SpriteSheet spriteSheet;
 static Sprite sprites[MAX_SPRITES];
-//static Nieves nieves[1];
 static size_t numSprites = MAX_SPRITES;
 Sprite *sprite = &sprites[MAX_SPRITES];
 
@@ -56,11 +55,9 @@ static void initSprites()
 		if (i == 3){
 			C2D_SpriteFromSheet(&sprite->spr, spriteSheet, i);
 			C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
-			C2D_SpriteSetPos(&sprite->spr, rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT);
-			sprite->dx = rand() * 4.0f / RAND_MAX - 2.0f;
-			sprite->dy = rand() * 4.0f / RAND_MAX - 2.0f;
-
-
+			C2D_SpriteSetPos(&sprite->spr, 200.0f, 110.0f);
+			sprite->dx = 200.0f;
+			sprite->dy = 110.0f;
 		}
 		
 	}
@@ -77,7 +74,6 @@ static void movePlayer(u32 kHeld)
 	C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
 	C2D_SpriteSetPos(&sprite->spr, sprite->dx, sprite->dy);
 	
-	//C2D_SpriteMove(&sprite->spr, sprite->dx, sprite->dy);
 	sprite->dy = sprite->dy- 1;
 	
 			
@@ -89,7 +85,6 @@ static void movePlayer(u32 kHeld)
 	C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
 	C2D_SpriteSetPos(&sprite->spr, sprite->dx, sprite->dy);
 	
-	//C2D_SpriteMove(&sprite->spr, sprite->dx, sprite->dy);
 	sprite->dy = sprite->dy + 1;
 
 	
@@ -102,7 +97,6 @@ static void movePlayer(u32 kHeld)
 	C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
 	C2D_SpriteSetPos(&sprite->spr, sprite->dx, sprite->dy);
 	
-	//C2D_SpriteMove(&sprite->spr, sprite->dx, sprite->dy);
 	sprite->dx = sprite->dx + 1;
 	}
 	else if (kHeld & KEY_LEFT)
@@ -113,7 +107,6 @@ static void movePlayer(u32 kHeld)
 	C2D_SpriteSetCenter(&sprite->spr, 0.5f, 0.5f);
 	C2D_SpriteSetPos(&sprite->spr, sprite->dx, sprite->dy);
 	
-	//C2D_SpriteMove(&sprite->spr, sprite->dx, sprite->dy);
 	sprite->dx = sprite->dx - 1;
 	}
 	
@@ -128,11 +121,8 @@ static void movePlayer(u32 kHeld)
 	for (size_t i = 0; i < numSprites; i++)
 	{
 		Sprite *sprite = &sprites[i];
-		if (i == 3)
-		{
-			//------------------------------
-		}
-		else
+		
+		if ( i != 3)
 		{
 			C2D_SpriteMove(&sprite->spr, sprite->dx, sprite->dy);
 			C2D_SpriteRotateDegrees(&sprite->spr, 1.0f);
@@ -157,10 +147,8 @@ static void sceneInit(void)
 	// dynamic text - the latter will be cleared at each frame.
 	g_staticBuf  = C2D_TextBufNew(4096); // support up to 4096 glyphs in the buffer
 	g_dynamicBuf = C2D_TextBufNew(4096);
-
 	// Parse the static text strings
-	C2D_TextParse(&g_staticText[1], g_staticBuf, "Hola, esto es una prueba de texto rojo");
-
+	C2D_TextParse(&g_staticText[1], g_staticBuf, "Codoñer, Nieves | Garcés, Antoni | Padró, Cristina");
 	// Optimize the static text strings
 	C2D_TextOptimize(&g_staticText[1]);
 }
@@ -171,36 +159,28 @@ static void sceneRender(float size)
 	// Draw static text strings
 	C2D_DrawText(&g_staticText[1], C2D_AtBaseline | C2D_WithColor, 16.0f, 210.0f, 0.5f, 0.5f, 0.75f, C2D_Color32f(2.0f,0.0f,0.0f,3.0f));
 	// Generate and draw dynamic text
-
-
-		
-		//snprintf("\x1b[2;1HCPU:     %6.2f%%\x1b[K", C3D_GetProcessingTime() * 6.0f);
-		//snprintf("\x1b[3;1HGPU:     %6.2f%%\x1b[K", C3D_GetDrawingTime() * 6.0f);
-		//snprintf("\x1b[4;1HCmdBuf:  %6.2f%%\x1b[K", C3D_GetCmdBufUsage() * 100.0f);
 	char buf[160];
 	C2D_Text dynText;
-	// int snprintf(char *str, size_t size, const char *format, ...);  *str : is a buffer. size : is the maximum number of bytes format : C string that contains a format
-	//snprintf(buf, sizeof(buf), "Current text size: %f (Use  to change)", size);
+
 	snprintf(buf,sizeof(buf),"Sprites: %zu/%u", numSprites, MAX_SPRITES);
 	C2D_TextParse(&dynText, g_dynamicBuf, buf);
 	C2D_TextOptimize(&dynText);
-	//text,flags,x,y,z,scaleX, sclaseY
-	C2D_DrawText(&dynText, C2D_AlignCenter, 200.0f, 90.0f, 0.5f, 0.5f, 0.5f);
+	C2D_DrawText(&dynText, C2D_AlignCenter| C2D_WithColor, 200.0f, 90.0f, 0.5f, 0.5f, 0.6f,C2D_Color32f(1.0f,2.0f,3.0f,2.0f));
 
 	snprintf(buf,sizeof(buf),"CPU:     %6.2f%%", C3D_GetProcessingTime() * 6.0f);
 	C2D_TextParse(&dynText, g_dynamicBuf, buf);
 	C2D_TextOptimize(&dynText);
-	C2D_DrawText(&dynText, C2D_AlignCenter, 200.0f, 110.0f, 0.5f, 0.5f, 0.5f);
+	C2D_DrawText(&dynText, C2D_AlignCenter| C2D_WithColor, 200.0f, 110.0f, 0.5f, 0.5f, 0.7f,C2D_Color32f(1.0f,2.0f,3.0f,2.0f));
 
 	snprintf(buf,sizeof(buf),"GPU:     %6.2f%%", C3D_GetDrawingTime() * 6.0f);
 	C2D_TextParse(&dynText, g_dynamicBuf, buf);
 	C2D_TextOptimize(&dynText);
-	C2D_DrawText(&dynText, C2D_AlignCenter, 200.0f, 130.0f, 0.5f, 0.5f, 0.5f);
+	C2D_DrawText(&dynText, C2D_AlignCenter| C2D_WithColor, 200.0f, 130.0f, 0.5f, 0.5f, 0.8f,C2D_Color32f(1.0f,2.0f,3.0f,2.0f));
 
 		snprintf(buf,sizeof(buf),"CmdBuf:  %6.2f%%", C3D_GetCmdBufUsage() * 100.0f);
 	C2D_TextParse(&dynText, g_dynamicBuf, buf);
 	C2D_TextOptimize(&dynText);
-	C2D_DrawText(&dynText, C2D_AlignCenter, 200.0f, 150.0f, 0.5f, 0.5f, 0.5f);
+	C2D_DrawText(&dynText, C2D_AlignCenter| C2D_WithColor, 200.0f, 150.0f, 0.5f, 0.5f, 0.9f,C2D_Color32f(1.0f,2.0f,3.0f,2.0f));
 
 
 }
@@ -251,8 +231,7 @@ int main(int argc, char *argv[])
 		u32 kDown = hidKeysDown();
 		//hidKeysHeld returns information about which buttons have are held down in this frame
 		u32 kHeld = hidKeysHeld();
-		//hidKeysUp returns information about which buttons have been just released
-		u32 kUp = hidKeysUp();
+
 
 		if (kDown & KEY_START) break;
 		movePlayer(kHeld);
